@@ -1,0 +1,63 @@
+# editors
+vi
+vim
+neovim
+# tools
+7zip
+zip
+htop
+# partitioning
+gparted
+partitionmanager
+# applications
+firefox
+torbrowser-launcher
+chromium
+thunderbird
+libreoffice-fresh
+drawio-desktop
+keepassxc
+obs-studio
+spotify-launcher
+telegram-desktop
+discord
+blender
+gimp
+krita
+steam
+flatpak
+# encrypt directory
+ecryptfs-utils
+sox
+# virtualbox
+virtualbox-host-modules-arch
+virtualbox
+virtualbox-guest-iso
+# wine & tools
+wine
+winetricks
+wine-mono
+wine-gecko
+gamemode
+gamescope
+mangohud
+gameconqueror
+# java
+jdk-openjdk
+# database
+postgresql
+# backup applications
+borg
+vorta
+# 64 bit
+vulkan-icd-loader
+mesa
+vulkan-intel
+vkd3d
+pipewire-jack
+# 32 bit
+lib32-vulkan-icd-loader
+lib32-mesa
+lib32-vulkan-intel
+lib32-vkd3d
+lib32-pipewire-jack

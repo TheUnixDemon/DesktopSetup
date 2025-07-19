@@ -1,0 +1,4 @@
+# heroic games launcher
+com.heroicgameslauncher.hgl
+# minecraft
+com.atlauncher.ATLauncher
