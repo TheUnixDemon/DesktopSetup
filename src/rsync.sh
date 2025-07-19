@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# env
+if [[ -z "$ROOT_DIR" ]]; then
+    export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+
 backup_mount_dir="/mnt/vorta"
 backup_home_dir="$backup_mount_dir/home/theunixdaemon" # backup home dir
 
@@ -23,8 +28,11 @@ deploy_backup() {
             return 0
         else
             echo "*$backup_home_dir* not found"
+        fi
     else
-        echo "nothing mounted at *$backup_mount_dir*"
+        echo "not mounted at *$backup_mount_dir*"
     fi
     return 1
 }
+
+deploy_backup # copying from backup to new installation

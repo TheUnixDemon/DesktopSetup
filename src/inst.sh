@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# env
+if [[ -z "$ROOT_DIR" ]]; then
+    export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+
 # packages
 pkgs_dir="$ROOT_DIR/packages"
 
