@@ -14,11 +14,10 @@ deploy_backup() {
         if [[ -d "$backup_home_dir" ]]; then
             for source in "${!deploy_dirs[@]}"; do
                 dest="${deploy_dirs[$source]}"
-                if [[ -d "$source" && -d "$dest" ]]; then
+                if [[ -e "$source" && -e "$dest" ]]; then
                     rsync -avP --exclude-from="$ROOT_DIR/exclude.txt" "$source" "$dest" && echo "successfully copied from *$source* to *$dest*"
                 else
-                    echo "*$source* or *$dest* doesn't exists"
-                    return 1
+                    echo "*$source* or *$dest* doesn't exists; skipping *$source*; *$dest*"
                 fi
             done
             return 0

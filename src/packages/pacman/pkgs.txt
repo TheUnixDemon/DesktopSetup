@@ -1,8 +1,8 @@
-# editors
+# editors & tools
 vi
 vim
 neovim
-# tools
+git
 7zip
 zip
 htop
