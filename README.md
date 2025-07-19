@@ -1,6 +1,6 @@
 # Arch Installation Script
 
-Installation script for my Arch Linux setup. Installs automaticly dependencies of my setup on a new installation. Also copies backed up data to new operating system.
+Installation script for my **Arch Linux** setup. Installs automaticly dependencies of my setup on a new installation. Also copies backed up data to new operating system.
 
 # Getting Started
 
