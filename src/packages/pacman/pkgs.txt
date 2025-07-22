@@ -42,6 +42,7 @@ gamemode
 gamescope
 mangohud
 gameconqueror
+umu-launcher
 lutris
 # java
 jdk-openjdk
