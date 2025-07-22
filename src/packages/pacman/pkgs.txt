@@ -33,7 +33,7 @@ sox
 virtualbox-host-modules-arch
 virtualbox
 virtualbox-guest-iso
-# wine & tools
+# proton, wine & tools
 wine
 winetricks
 wine-mono
@@ -42,6 +42,7 @@ gamemode
 gamescope
 mangohud
 gameconqueror
+lutris
 # java
 jdk-openjdk
 # database

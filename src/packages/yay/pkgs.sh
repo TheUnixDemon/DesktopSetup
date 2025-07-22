@@ -7,3 +7,5 @@ bambustudio-nvidia-bin
 # tablet driver & osu
 opentabletdriver
 osu-lazer-bin
+# proton ge install
+protonup-qt
