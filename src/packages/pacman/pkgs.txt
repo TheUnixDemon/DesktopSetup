@@ -62,3 +62,4 @@ lib32-mesa
 lib32-vulkan-intel
 lib32-vkd3d
 lib32-pipewire-jack
+lib32-gamemode
