@@ -44,6 +44,7 @@ mangohud
 gameconqueror
 umu-launcher
 lutris
+firejail
 # java
 jdk-openjdk
 # database
