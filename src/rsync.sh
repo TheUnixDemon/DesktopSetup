@@ -5,6 +5,7 @@ if [[ -z "$ROOT_DIR" ]]; then
     export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi
 
+# archive dirs
 backup_mount_dir="/temp/vorta"
 backup_home_dir="$backup_mount_dir/home/theunixdaemon" # backup home dir
 
@@ -12,6 +13,7 @@ backup_home_dir="$backup_mount_dir/home/theunixdaemon" # backup home dir
 declare -A deploy_dirs=(
     ["$backup_home_dir/"]="$HOME"
 )
+
 
 mount_backup() {
     # creating mount directory
