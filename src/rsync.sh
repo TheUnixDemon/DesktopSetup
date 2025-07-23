@@ -5,13 +5,20 @@ if [[ -z "$ROOT_DIR" ]]; then
     export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi
 
-backup_mount_dir="/mnt/vorta"
+backup_mount_dir="/temp/vorta"
 backup_home_dir="$backup_mount_dir/home/theunixdaemon" # backup home dir
 
 # locations to deploy from backup to new system installation
 declare -A deploy_dirs=(
     ["$backup_home_dir/"]="$HOME"
 )
+
+mount_backup() {
+    # creating mount directory
+    if [[ ! -d "$backup_mount_dir" ]]; then
+        mkdir -p "$backup_mount_dir" && echo "created temp dir *$backup_mount_dir*"
+    fi 
+}
 
 # copie files from backup location to local system
 deploy_backup() {
