@@ -8,7 +8,7 @@ fi
 # borg server
 sshkey="$ROOT_DIR/server/backupserver"
 sshport=22
-repo="ssh://borgbackup@server:$sshport/location/desktop"
+repo="ssh://borg@server:$sshport/mnt/repo"
 pass_file="$ROOT_DIR/server/pass.txt"
 
 # locations
