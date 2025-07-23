@@ -1,5 +1,4 @@
 nvidia 
-# 64 bit
 nvidia-utils
 # 32 bit
 lib32-nvidia-utils
