@@ -46,7 +46,7 @@ inst_pacman_pkgs() {
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
             sudo pacman -Syu --noconfirm --needed $pkgs && echo "installation successfully" && return 0
-            echo "installation failed"
+            echo "pacman - installation failed"
         else
             echo "pkg files are empty; abort installation"
         fi
@@ -62,8 +62,8 @@ inst_yay_pkgs() {
         pkgs=$(grep -hvE "^\s*#|^\s*$" "$@")
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
-            sudo pacman -Syu --noconfirm --needed $pkgs && echo "installation successfully" && return 0
-            echo "installation failed"
+            yay -Syu --noconfirm --needed $pkgs && echo "installation successfully" && return 0
+            echo "Yay - installation failed"
         else
             echo "pkg files are empty; abort installation"
         fi
@@ -81,7 +81,7 @@ inst_flatpak_pkgs() {
             echo -e "following packages will be installed ...\n$pkgs"
             for pkg in "$pkgs"; do
                 flatpak install -y flathub $pkg && echo "installation of *$pkg* successfully" && return 0
-                echo "installation failed"
+                echo "Flatpak - installation failed"
             done
         else
             echo "pkg files are empty; abort installation"
@@ -106,7 +106,7 @@ load_modules() {
     kernel_modules=$(grep -hvE "^\s*#|^\s*$" "$modules_list")
         if [[ -n "$kernel_modules" ]]; then
             echo "$kernel_modules"
-            sudo modprobe "$kernel_modules" && return 0
+            sudo modprobe $kernel_modules && return 0
         else
             echo "*$modules_list* is empty"
         fi
@@ -136,7 +136,11 @@ service_setup() {
 }
 
 # installing packages
-inst_packages && load_modules || exit 1
+if ! ( inst_packages && load_modules ); then
+    echo "required installation process failed"
+    exit 1
+fi
+
 # services (no automatic aborting)
 psql_setup # setup postgresql
 service_setup # other services
