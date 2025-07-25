@@ -45,7 +45,7 @@ inst_pacman_pkgs() {
         pkgs=$(grep -hvE "^\s*#|^\s*$" "$@")
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
-            sudo pacman -Syu --needed $pkgs && echo "installation successfully"; return 0
+            sudo pacman -Syu --needed $pkgs && echo "installation successfully" && return 0
             echo "installation failed"
         else
             echo "pkg files are empty; abort installation"
@@ -62,7 +62,7 @@ inst_yay_pkgs() {
         pkgs=$(grep -hvE "^\s*#|^\s*$" "$@")
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
-            sudo pacman -Syu --needed $pkgs && echo "installation successfully"; return 0
+            sudo pacman -Syu --needed $pkgs && echo "installation successfully" && return 0
             echo "installation failed"
         else
             echo "pkg files are empty; abort installation"
@@ -80,7 +80,7 @@ inst_flatpak_pkgs() {
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
             for pkg in "$pkgs"; do
-                flatpak install flathub "$pkg" && echo "installation of *$pkg* successfully"; return 0
+                flatpak install flathub "$pkg" && echo "installation of *$pkg* successfully" && return 0
                 echo "installation failed"
             done
         else
@@ -105,8 +105,7 @@ load_modules() {
     kernel_modules=$(grep -hvE "^\s*#|^\s*$" "$modules_list")
         if [[ -n "$kernel_modules" ]]; then
             echo "$kernel_modules"
-            sudo modprobe "$kernel_modules"
-
+            sudo modprobe "$kernel_modules" && return 0
         else
             echo "*$modules_list* is empty"
         fi
@@ -116,15 +115,27 @@ load_modules() {
     return 1
 }
 
-# postgresql
+# only postgresql specificly
 psql_setup() {
     echo "PostgreSQL setup was ..."
     if sudo su postgres -c "initdb -D /var/lib/postgres/data" && sudo systemctl enable --now postgresql; then
         echo "successful"
+        return 0
     else
         echo "unsuccessful"
     fi
+    return 1
 }
 
-inst_packages && load_modules # installing & loading modules
+# services setup
+service_setup() {
+    echo "following services ..."
+    systemctl --user enable --now opentabletdriver.service && echo "*OpenTabletDriver*" || echo "*OpenTabletDriver* (failed)"
+    echo "enabled"
+}
+
+# installing packages
+inst_packages && load_modules || exit 1
+# services
 psql_setup # setup postgresql
+service_setup # other services
