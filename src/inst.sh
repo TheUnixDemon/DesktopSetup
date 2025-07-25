@@ -80,7 +80,7 @@ inst_flatpak_pkgs() {
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
             for pkg in "$pkgs"; do
-                flatpak install -y flathub "$pkg" && echo "installation of *$pkg* successfully" && return 0
+                flatpak install -y flathub $pkg && echo "installation of *$pkg* successfully" && return 0
                 echo "installation failed"
             done
         else
