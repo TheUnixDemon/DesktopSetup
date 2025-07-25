@@ -1,33 +1,34 @@
 # Arch Installation Script
 
-Installation script for my **Arch Linux** setup. Installs automaticly dependencies of my setup on a new installation. Also copies backed up data to new operating system.
+Post-installation script for **Arch Linux/EndeavourOS**. Installs automaticly packages that are declared within the `packages/**` files and transfers data from a borgbackup server to the current operating system. 
 
 # Getting Started
 
-For a complete installation & syncing, you can make use of `./src.main.sh`. Before that I recommend to change the locations declard in `./src/.rsync.sh` (look below).
+For a complete installation & syncing, make use of `./src/main.sh`. Before that It's recommend to change the mounting location declared in `./src/borgserver.sh`.
 
 ```bash
 #!/bin/bash
 ./src/main.sh
 ```
 
-## <u> Rsync Backup Location </u>
+## <u> Borgbackup Server </u>
 
-Change location of the declared variables `backup_mount_dir` and `backup_home_dir` to the wished ones in `./src/rsync.sh`. `rsync.sh` checks if the path exists. The backed up locations are also declared in the same script file as map/dict.
+Change location of the declared mounting directory `mount_dir` if needed. The location paths that are to transfer from the source (borgbackup archive) to the destination (current OS) are declared as map or dict. Also the script checks if both directories exits and tranfers the data via `rsync` to the destination.
 
+## <u> Seperately Setting Up </u>
 
-## <u> Seperatly Setting Up </u>
+It's also possible to use the scripts `./src/inst.sh` and `./src/borgserver.sh` seperately. The `./src/main.sh` does load first the installation script and after that the borgbackup server script. But only in `./src/main.sh` is the function to keep-alive the sudo permission implemented so for a unattended installation it's recommended to use that script.
 
-It's also possible to use seperatly *either* the package installation script *or* the recovery of data using `rsync`. Here only the installation of packages declared in the package files located at `./src/packages/**.txt`.
+To install declared packages with Pacman, Yay and Flatpak. Afterwards it's loading manually the needed kernel modules (also declared in a file) and setting up services like database servers and more. 
 
 ```bash
 #!/bin/bash
-./src/inst.sh # install packages with pacman, yay & flatpak
+./src/inst.sh # installing (via pacman, yay & flatpak) and enabling services
 ```
 
-Or only copying backup files to the newly installed operating system.
+To transfer data from borgbackup archive to current OS.
 
 ```bash
 #!/bin/bash
-./src/rsync.sh # recovery data using rsync
+./src/borgserver.sh # recovery data using rsync
 ```
