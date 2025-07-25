@@ -45,7 +45,7 @@ inst_pacman_pkgs() {
         pkgs=$(grep -hvE "^\s*#|^\s*$" "$@")
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
-            sudo pacman -Syu --needed $pkgs && echo "installation successfully" && return 0
+            sudo pacman -Syu --noconfirm --needed $pkgs && echo "installation successfully" && return 0
             echo "installation failed"
         else
             echo "pkg files are empty; abort installation"
@@ -62,7 +62,7 @@ inst_yay_pkgs() {
         pkgs=$(grep -hvE "^\s*#|^\s*$" "$@")
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
-            sudo pacman -Syu --needed $pkgs && echo "installation successfully" && return 0
+            sudo pacman -Syu --noconfirm --needed $pkgs && echo "installation successfully" && return 0
             echo "installation failed"
         else
             echo "pkg files are empty; abort installation"
@@ -80,7 +80,7 @@ inst_flatpak_pkgs() {
         if [[ -n "$pkgs" ]]; then
             echo -e "following packages will be installed ...\n$pkgs"
             for pkg in "$pkgs"; do
-                flatpak install flathub "$pkg" && echo "installation of *$pkg* successfully" && return 0
+                flatpak install -y flathub "$pkg" && echo "installation of *$pkg* successfully" && return 0
                 echo "installation failed"
             done
         else
@@ -93,9 +93,10 @@ inst_flatpak_pkgs() {
 # installation packages
 inst_packages() {
     echo "installing requirements with Pacman, Yay & Flatpak"
-    inst_pacman_pkgs $nvidia_pkgs $pacman_pkgs
-    inst_yay_pkgs $yay_pkgs
-    inst_flatpak_pkgs $flatpak_pkgs
+    inst_pacman_pkgs $nvidia_pkgs $pacman_pkgs || return 1
+    inst_yay_pkgs $yay_pkgs || return 1
+    inst_flatpak_pkgs $flatpak_pkgs || return 1
+    return 0
 }
 
 # loading kernel modules
@@ -136,6 +137,6 @@ service_setup() {
 
 # installing packages
 inst_packages && load_modules || exit 1
-# services
+# services (no automatic aborting)
 psql_setup # setup postgresql
 service_setup # other services
