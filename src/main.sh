@@ -13,16 +13,16 @@ keep_alive_sudo() {
             done
         } 2>/dev/null &
         keep_alive=$!
-        echo "sudo keep-alive started"
+        echo "keep-alive (sudo) started"
         return 0
     else
-        echo "sudo authentication failed"
+        echo "authentication failed; abort"
         return 1
     fi
 }
 
 # keep alive sudo permission
-keep_alive_sudo
+keep_alive_sudo || exit 1
 
 # execute installation & recovery
 source "$ROOT_DIR/inst.sh" # setup package requirements 
@@ -30,5 +30,5 @@ source "$ROOT_DIR/borgserver.sh" # borg backup & rsync as recovery method
 
 # undo keep alive sudo permission
 if [[ -n "$keep_alive" ]] && kill -0 "$keep_alive" 2>/dev/null; then
-    kill "$keep_alive"
+    kill "$keep_alive" && echo "removed keep-alive (sudo) process"
 fi
