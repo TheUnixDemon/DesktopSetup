@@ -4,7 +4,7 @@
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # sudo temp for unattended install
-keepalive_sudo() {
+keep_alive_sudo() {
     if sudo -v; then
         {
             while true; do
@@ -12,8 +12,8 @@ keepalive_sudo() {
                 sudo -n true
             done
         } 2>/dev/null &
-        keepalive=$!
-        echo "sudo keep-alive started (PID $keepalive)"
+        keep_alive=$!
+        echo "sudo keep-alive started"
         return 0
     else
         echo "sudo authentication failed"
@@ -22,13 +22,13 @@ keepalive_sudo() {
 }
 
 # keep alive sudo permission
-keepalive_sudo
+keep_alive_sudo
 
 # execute installation & recovery
 source "$ROOT_DIR/inst.sh" # setup package requirements 
 source "$ROOT_DIR/borgserver.sh" # borg backup & rsync as recovery method
 
 # undo keep alive sudo permission
-if [[ -n "$keepalive" ]] && kill -0 "$keepalive" 2>/dev/null; then
-    kill "$keepalive"
+if [[ -n "$keep_alive" ]] && kill -0 "$keep_alive" 2>/dev/null; then
+    kill "$keep_alive"
 fi
