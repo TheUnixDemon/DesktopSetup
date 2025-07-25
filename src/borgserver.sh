@@ -6,10 +6,10 @@ if [[ -z "$ROOT_DIR" ]]; then
 fi
 
 # borg server
-ssh_key="$ROOT_DIR/server/backupserver"
-ssh_port=22
-repo="ssh://borg@server:$ssh_port/mnt/repo"
-repo_password="$ROOT_DIR/server/pass.txt"
+ssh_key="$ROOT_DIR/server/backupserver" # change me
+ssh_port=22 # change me
+repo="ssh://borg@server:$ssh_port/mnt/repo" # change me
+repo_password="$ROOT_DIR/server/pass.txt" # optional
 
 # locations
 mount_dir="/tmp/borg"
