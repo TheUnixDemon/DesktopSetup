@@ -43,8 +43,8 @@ For base driver I wrote down two package files `./src/packages/amd.txt` and `./s
 install_pkgs() {
     inst_pacman_pkgs $nvidia_pkgs $pacman_pkgs # for nvidia
     inst_pacman_pkgs $amd_pkgs $pacman_pkgs # for amd
-    ...
-...
+    inst_yay_pkgs $yay_pkgs
+    inst_flatpak_pkgs $flatpak_pkgs
 }
 ```
 
