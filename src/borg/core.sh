@@ -11,5 +11,4 @@ if ! source "$borg_conf_file"; then
     exit 1
 fi
 
-# loading server script
-source "$BORG_WORKING_DIR/server.sh"
+source "$BORG_WORKING_DIR/server.sh" # borg server
