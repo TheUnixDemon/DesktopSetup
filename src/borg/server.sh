@@ -36,7 +36,7 @@ else
     exit 1
 fi
 
-# === pre func ===
+# === func ===
 # checks if connection works
 validate_borg_conn() {
     borg info 1> /dev/null && return 0
@@ -89,6 +89,14 @@ fi
 # mounting archive
 prefix="mounting   'latest::$latest' at '$MOUNT_DIR' ..."
 if do_mount; then
+    echo "$prefix successful"
+else
+    echo "$prefix unsuccessful"
+    exit 1
+fi
+# checking home dir within archive
+prefix="validating directory '$BORG_HOME' ..."
+if [[ -d "$BORG_HOME" ]]; then
     echo "$prefix successful"
 else
     echo "$prefix unsuccessful"

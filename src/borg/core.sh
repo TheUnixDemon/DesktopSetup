@@ -10,5 +10,5 @@ if ! source "$borg_conf_file"; then
     echo "failed to load configuration *$borg_conf_file*; abort"
     exit 1
 fi
-
+# server preparation & testing
 source "$BORG_WORKING_DIR/server.sh" # borg server
