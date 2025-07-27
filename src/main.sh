@@ -2,7 +2,7 @@
 
 # === vars ===
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WAIT=5 # basic time to wait in between
+WAIT=3 # basic time to wait in between
 
 # === func ===
 # sudo temp for unattended install
@@ -18,7 +18,7 @@ keep_alive_sudo() {
         echo "keep-alive (sudo) started"
         return 0
     else
-        echo "authentication failed; abort"
+        echo "authentication failed"
         return 1
     fi
 }
@@ -43,7 +43,7 @@ usr_interact() {
 }
 # installing required software
 install_requirements() {
-    sudo pacman -Syu --noconfirm --needed openssh borg rsync && return 0
+    sudo pacman -Syu --noconfirm --needed openssh borg python-llfuse rsync && return 0
     return 1
 }
 # rsync recovery

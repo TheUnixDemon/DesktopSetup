@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === vars ===
-pkgs_dir="$PKGS_WORKING_DIR/packages"
+pkgs_dir="$PKGS_WORKING_DIR"
 # pacman pkgs
 pacman_pkgs_dir="$pkgs_dir/pacman"
 nvidia_pkgs="$pacman_pkgs_dir/nvidia.txt"
@@ -22,7 +22,7 @@ check_pkgs() {
     for pkgs_file in "$@"; do
         echo "loading pkg file *$pkgs_file* ..."
         if [[ ! -f "$pkgs_file" ]]; then
-            echo "*$pkgs_file* not found; abort installation"
+            echo "*$pkgs_file* not found"
             return 1
         fi
     done
@@ -118,7 +118,7 @@ load_modules() {
     else
         echo "*$modules_list* not found"
     fi
-    exit 1
+    return 1
 }
 
 # === main ===
