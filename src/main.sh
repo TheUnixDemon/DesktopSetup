@@ -2,6 +2,7 @@
 
 # === vars ===
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WAIT=5 # basic time to wait in between
 
 # === func ===
 # sudo temp for unattended install
@@ -20,6 +21,25 @@ keep_alive_sudo() {
         echo "authentication failed; abort"
         return 1
     fi
+}
+# simple user interaction
+usr_interact() {
+    [[ -n "$1" ]] && echo "$1"
+    while true; do
+        read -p "Confirm? (y/N) " answer
+        case $answer in
+            y|Y)
+                return 0
+            ;;
+            n|N)
+                return 1
+            ;;
+            *)
+            continue
+            ;;
+        esac
+    done
+
 }
 # installing required software
 install_requirements() {
@@ -57,14 +77,21 @@ fi
 
 # === main ===
 # loading scripts
-source "$ROOT_DIR/packages/core.sh" # install packages & enable services 
-source "$ROOT_DIR/borg/core.sh" # borg backup connection & mounting
-
+source "$ROOT_DIR/packages/core.sh"; sleep $WAIT # install packages & enable services 
+source "$ROOT_DIR/borg/core.sh"; sleep $WAIT # borg backup connection & mounting
 # installing software setup
+while true; do
+    usr_interact "package installation via Pacman, Yay & Flatpak" && break
+done
+echo "starting package installation installation ..."; sleep $WAIT
 install_pkgs # installing packages
 setup_services # enabling & setting up services
-
+load_modules # load kernel modules
 # copying backup to local OS using rsync
+while true; do
+    usr_interact "data recovery using Borg & Rsync" && break
+done
+echo "starting data recovery process ..."; sleep $WAIT
 make_recovery
 
 # === post act ===
