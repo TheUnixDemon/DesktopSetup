@@ -129,8 +129,9 @@ If you want to exclude folders or files you can put your patterns into the `./sr
 **/Downloads/**
 **/.wine/**
 **/.cache/**
-**/*.log
 **/Trash/**
+**/*.log
+
 ```
 
 # Last Words
