@@ -7,6 +7,4 @@
 **/.zoom/
 **/*.log
 **/Games/
-**/.steam/
-**/.local/share/Steam/
 **/.local/share/Trash/
