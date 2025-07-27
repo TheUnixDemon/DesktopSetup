@@ -1,10 +1,6 @@
-**/.android/
-**/Android/
-**/AndroidStudioProjects/
-**/Downloads/
-**/.cache/
-**/.wine/
-**/.zoom/
+**/Downloads/**
+**/Games/**
+**/.wine/**
+**/.cache/**
+**/Trash/**
 **/*.log
-**/Games/
-**/.local/share/Trash/
