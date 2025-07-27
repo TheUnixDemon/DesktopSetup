@@ -90,17 +90,17 @@ psql_service() {
     else
         echo "$prefix unsuccessful"
     fi
-    return 1
+    exit 1
 }
 # opentabletdriver
 otd_service() {
     systemctl --user enable --now opentabletdriver.service 1> /dev/null && return 0
-    return 1
+    exit 1
 }
 # bluetooth
 bt_service() {
     sudo systemctl enable --now bluetooth.service 1> /dev/null && return 0
-    return 1
+    exit 1
 }
 
 # === kernel modules ===
@@ -118,7 +118,7 @@ load_modules() {
     else
         echo "*$modules_list* not found"
     fi
-    return 1
+    exit 1
 }
 
 # === main ===
