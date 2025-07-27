@@ -43,7 +43,7 @@ usr_interact() {
 }
 # installing required software
 install_requirements() {
-    sudo pacman -Syu openssh borg rsync && return 0
+    sudo pacman -Syu --noconfirm --needed openssh borg rsync && return 0
     return 1
 }
 # rsync recovery
