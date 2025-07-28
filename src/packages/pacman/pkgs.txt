@@ -11,7 +11,6 @@ lib32-vulkan-intel
 lib32-vkd3d
 lib32-pipewire-jack
 # editors & tools
-vi
 vim
 neovim
 git
