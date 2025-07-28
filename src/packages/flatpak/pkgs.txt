@@ -1,4 +1,6 @@
 # heroic games launcher
 com.heroicgameslauncher.hgl
+# proton ge
+net.davidotek.pupgui2
 # minecraft
 com.atlauncher.ATLauncher
