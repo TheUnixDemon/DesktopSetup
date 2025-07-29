@@ -152,7 +152,7 @@ Currently I'm using KDE Plasma 6 Wayland because it's more stable than years bef
 * `winetricks`
 * `umu-launcher` (proton)
 
-I am using Linux full time and can handle my *Wine* prefixes by myself (mostly) so I'm usually not using *Lutris* as compatibily layer handler. If you have problems with the terminal try *Lutris*. Also I like to use *umu-launcher* for using Proton from Steam without using it through (outside of) Steam itself. *umu-launcher* allows to use *winetricks* for the installation of *dlls* and has a better compatibility out-of-the-box than *Wine* without installing direktly additional *dlls*.
+I am using Linux full time and can handle my *Wine* prefixes by myself (mostly) so I'm usually not using *Lutris* as compatibily layer handler. If you have problems with the terminal try *Lutris*. Also I like to use *umu-launcher* for using Proton from Steam without using it through (outside of) Steam. *umu-launcher* allows to use *winetricks* for the installation of *dlls* and has a better compatibility out-of-the-box than *Wine* without installing directly additional *dlls*.
 
 ## <u> Utility Tools </u>
 * `gamemode`
