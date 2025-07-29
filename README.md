@@ -4,7 +4,7 @@ A half-unattended post-installation script for **Arch Linux**. It installs  pack
 
 # Getting Started
 
-For a complete installation & syncing excute the main script `./src/main.sh`. But before that it is required to configure the connection to the Borg server by creating a script named `./src/borg/conf/conf.sh`. Here an example how this configuration script should look like.
+For a complete installation & syncing excute the main script `./src/main.sh`. **But** before that it is required to configure the connection to the Borg server by creating a script named `./src/borg/conf/conf.sh`. Here an example how this configuration script should look like.
 
 ```bash
 #!/bin/bash
@@ -21,6 +21,8 @@ MOUNT_DIR=/tmp/borg # borg archive mount location *REQUIRED
 BORG_HOME="$MOUNT_DIR/home/USERNAME" # borg archive home location *REQUIRED
 ```
 
+After that execute the `./src/main.sh` and check it's output. If the checks are looking good it's time to continue the process using direct confirmation by the user.
+
 ## <u> Configuration </u> 
 
 First of all the configuration variables `BORG_PASSPHRASE` and `BORG_RSH` are optional. If you are using SSH to communicate with your external Borg server you have to use `BORG_RSH`. But if the targeted Borg server is locally and not through SSH `BORG_RSH` do not set this variable at all. `SSH_KEYFILE` can be ignored if `BORG_RSH` is of no use for you.
@@ -29,7 +31,7 @@ Furthermore If `BORG_PASSPHRASE` is set you don't have to input the password by 
 
 ## <u> How It Works </u>
 
-If the `./src/main.sh` is started it installs it's required packages via Pacman. After that It loads both core scripts `./src/borg/core.sh` and `./src/packages/core.sh`. Before the process of installation and data recovery starts. The core scripts are checking if, first of all, the package files (`./src/packages/pacman/*.txt`, `...`) are to be found and last but not least if the Borg server is reachable, the connection is successful, archives are found and can be mounted to the desired location. After that the complete process is split in two. Firstly the installation process of packages declared in those package files and secoundly the data recovery via Borg and Rsync. Inbetween the user has to confirm that the script should continue it's normal course. This interaction is recommended to keep for checking the results of package installation by hand and after that the data recovery starts and that's it.
+If the `./src/main.sh` is started it installs it's required packages via Pacman. After that It loads both core scripts `./src/borg/core.sh` and `./src/packages/core.sh`. Before the process of installation and data recovery starts. The core scripts are checking if, first of all, the package files (`./src/packages/pacman/*.txt`, `...`) are to be found and last but not least if the Borg server is reachable, the connection is successful, archives are found and can be mounted to the desired location. After that the process is split in two. Firstly the **installation** process of packages declared in those package files and secoundly the **data recovery** via Borg and Rsync. Inbetween the user has to confirm that the script should continue it's normal course. This interaction is recommended to keep for checking the results of package installation by hand before continuing.
 
 ### Packages
 
@@ -48,7 +50,7 @@ install_pkgs() {
 }
 ```
 
-Paste packages to the `**/pkgs.txt` of your choice. Two things are to pay attention. Firstly packages will be seperately placed into a new line and secoundly comments can be made but you can't mix up a line that is used up for a package declaration with a comment line.
+Paste packages to the `**/pkgs.txt` of your choice. The comments in those files have to be seperated from the package declaration using a new line.
 
 #### *Positive Example*
 
@@ -64,15 +66,15 @@ package-3
 package-4
 ```
 
-And here you can see how the packagemanagers will interpret this example `**/pkgs.txt` file. Flatpak doesn't support token based packages chained together as valid parameter so one after another will be installed. Pacman and Yay can both chain them together so these both have to execute only ones per installation.
+Flatpak doesn't support token based packages chained together as valid parameter so one after another will be installed. Pacman and Yay can both chain them together so these have to be executed only ones.
 
 ```bash
 #!/bin/bash
-# pacman
+# Pacman
 sudo pacman -Syu --noconfirm --needed package-1 package-2 package-3 package-4
-# yay
+# Yay
 yay -Syu --noconfirm --needed package-1 package-2 package-3 package-4
-# flatpak
+# Flatpak
 flatpak install -y flathub package-1
 flatpak install -y flathub package-2
 flatpak install -y flathub package-3
@@ -88,11 +90,11 @@ package-1 # comment 1
 package-2
 ```
 
-The first line will be ignored because a `#` symbol so you better not mix them together with package declaration lines.
+The first line will be ignored because of the `#` symbol so you better not mix them together with package declaration lines.
 
 ### Rsync
 
-The locations that are to transfer/sync are defined in the `./src/main.sh`.
+The locations that will be tranfered are defined in the `./src/main.sh`.
 
 ```bash
 #!/bin/bash
@@ -107,18 +109,18 @@ make_recovery() {
 ...
 ```
 
-`sync_dirs` is a map (in Python known as dict). The *key* (`$BORG_HOME/`) is the location of the Borg archive and the *value* (`$HOME`) should be a location on your localhost. The data transfer goes from the *key* synchronized to the *value*.
+`sync_dirs` is a map. The *key* (`$BORG_HOME/`) is the location of the Borg archive and the *value* (`$HOME`) should be a location on your localhost.
 
-Here as example the complete content of the mounted archive and it's home directory will be "copied" to the home directory of the current user. The command that will be executed internally looks like this.
+Here as example the complete content of the mounted archive and it's home directory will be *synchronized* to the home directory of the current user.
 
 ```bash
 #!/bin/bash
-rsync -avP --exclude-from="$ROOT_DIR/exclude.txt" "$BORG_HOME/" "$HOME"
+rsync -avP --exclude-from="$ROOT_DIR/exclude.txt" "$BORG_HOME/" "$HOME" # key -> value
 ```
 
 #### *Exclude Patterns*
 
-If you want to exclude folders or files you can put your patterns into the `./src/exclude.txt`. Here an example how it could look like.
+If you want to exclude folders or files you can put your patterns into the `./src/exclude.txt`.
 
 ```bash
 **/Downloads/**
@@ -130,38 +132,30 @@ If you want to exclude folders or files you can put your patterns into the `./sr
 
 # My Setup
 
-Here some informations about my software setup so those who doesn't know if package **xy** should remain or not here some favourites of mine.
+Here my essential software parts that I would install on every desktop setup that I use. I don't include AMD and their drivers because I usually don't use them (but my notebook does).
 
-## <u> Software </u>
-
-Here my essential software parts that I would install on every desktop setup.
-
-### Base Sys
+## <u> Operating System </u>
 * Arch Linux 64 Bit - **x86**
-* Cinnamon Wayland **or** KDE Plasma 6 Wayland
-* fitting graphicsdriver & vulkan support
-    * nvidia (not nvidia-dkms)
-    * nvidia-utils
-    * lib32-nvidia-utils
+* Cinnamon Wayland **&** KDE Plasma 6 Wayland
+* Nvidia driver
+    * `nvidia` (not `nvidia-dkms`)
+    * `nvidia-utils` & `lib32-nvidia-utils`
 
-So why not `nvidia-dkms`? `nvidia-dkms` will be locally compiled everytime a new version comes up so it takes much longer than `nvidia` because `nvidia` is pre-compiled. So why then so many recommend `nvidia-dkms`? It's basicly with every kernel compatible so it should work fine under every kernel. But If you're using the stable kernel (default) then I strongly recommend to switch to `nvidia`.
+Currently I'm using KDE Plasma 6 Wayland because it's more stable than years before. Back in the day, KDE Plasma 6 had some terrible issues with its stability and support for Nvidia, so basically it sometimes crashed randomly or had screen tearing. Then I switched for more than two years (2023–2025) to Cinnamon because of its stability (based on older GNOME), and it fixed most of my issues. As said, nowadays KDE Plasma 6 Wayland is stable enough to use it even with Nvidia cards, but if you have issues, I can recommend checking out Cinnamon.
 
-### Compatibily Layer
-* wine (stable)
-* wine-gecko
-* wine-mono
-* winetricks
-* umu-launcher (proton)
+`nvidia-dkms` will be locally compiled everytime a new version comes up so it takes much longer than `nvidia` because `nvidia` is pre-compiled. So why then so many recommend `nvidia-dkms`? It's basicly with every kernel compatible so it should work fine under every kernel. But If you're using the stable kernel (default) then I strongly recommend to switch to `nvidia`.
 
-Why `wine` and `umu-launcher`? I am using Linux fulltime and can handle custom but more lightweight compatibily layers like wine instead of using `Lutris`. If you have problems with the terminal try `Lutris`. Or use Windows alongside instead.
+## <u> Compatibily Layer </u>
+* `wine` (stable)
+* `wine-gecko` 
+* `wine-mono`
+* `winetricks`
+* `umu-launcher` (proton)
 
-### Utility Tools
-* gamemode
-* lib32-gamemode
-* gamescope
+I am using Linux full time and can handle my *Wine* prefixes by myself (mostly) so I'm usually not using *Lutris* as compatibily layer handler. If you have problems with the terminal try *Lutris*. Also I like to use *umu-launcher* for using Proton from Steam without using it through (outside of) Steam itself. *umu-launcher* allows to use *winetricks* for the installation of *dlls* and has a better compatibility out-of-the-box than *Wine* without installing direktly additional *dlls*.
 
-More performance through `gamemoderun` and `gamescope` makes window issues with mostly Windows applications obsolete.
+## <u> Utility Tools </u>
+* `gamemode`
+* `gamescope` & `lib32-gamemode`
 
-# Last Words
-
-This script does not make backups through Borg by itself but depends on software like **Vorta**. It's possible to code additionally a service that does that alongside the Borg backup creation but I think Vorta and other applications like that are working very good with desktop envirounments so It would be overkill and mostly useless for those that prefer Vorta.
+More performance through *gamemoderun* and *gamescope* makes window issues (mostly) obsolete.
