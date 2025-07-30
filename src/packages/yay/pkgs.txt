@@ -2,6 +2,7 @@
 visual-studio-code-bin
 android-studio
 vesktop-bin
+jellyfin-media-player
 # bambustudio (with nvidia fix)
 bambustudio-nvidia-bin
 # tablet driver & osu
